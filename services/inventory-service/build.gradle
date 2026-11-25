@@ -1,0 +1,52 @@
+plugins {
+    id 'java'
+    id 'org.springframework.boot' version '4.2.0'
+    id 'io.spring.dependency-management' version '1.1.7'
+}
+
+group = 'com.shopflow'
+version = '0.0.1-SNAPSHOT'
+description = 'ShopFlow - service Stock'
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(25)
+    }
+}
+
+// Lombok n'est utile qu'à la compilation : il n'est pas embarqué dans le JAR final
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-webmvc'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
+    implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:3.2.1'
+
+    // Base en mémoire : rien à installer pour démarrer
+    runtimeOnly 'com.h2database:h2'
+    // Spring Boot 4 est découpé en modules : la console H2 a le sien
+    runtimeOnly 'org.springframework.boot:spring-boot-h2console'
+    // Pour passer à PostgreSQL : voir le commentaire dans application.yml
+    runtimeOnly 'org.postgresql:postgresql'
+
+    compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
+
+    // Tests
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+}
+
+tasks.named('test') {
+    useJUnitPlatform()
+}
