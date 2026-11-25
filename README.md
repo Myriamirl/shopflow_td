@@ -2,7 +2,7 @@
   TALEB MORGIANE
 
 # REPONSES AUX QUESTIONS DU TD - ShopFlow
-Voir le fichier REPONSES.md pour les réponses aux questions du TD.
+Voir le fichier `REPONSES.md` pour les réponses aux questions du TD.
 
 # ShopFlow - version de base
 

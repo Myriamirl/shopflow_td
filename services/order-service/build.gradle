@@ -38,6 +38,8 @@ dependencies {
     implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:3.2.1'
     // Client HTTP déclaratif pour appeler catalog-service (communication synchrone)
     implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
+    implementation 'io.github.resilience4j:resilience4j-spring-boot4:2.4.0'
+    implementation 'org.springframework.boot:spring-boot-starter-aspectj'
     // Base en mémoire : rien à installer pour démarrer
     runtimeOnly 'com.h2database:h2'
     // Spring Boot 4 est découpé en modules : la console H2 a le sien
