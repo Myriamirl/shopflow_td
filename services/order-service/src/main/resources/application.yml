@@ -41,11 +41,38 @@ logging:
     # Le niveau DEBUG est nécessaire pour voir les logs Feign
     com.shopflow.order.client.CatalogClient: DEBUG
 
+resilience4j:
+  circuitbreaker:
+    instances:
+      catalog:
+        sliding-window-size: 10
+        minimum-number-of-calls: 5
+        failure-rate-threshold: 50
+        wait-duration-in-open-state: 10s
+        permitted-number-of-calls-in-half-open-state: 3
+        automatic-transition-from-open-to-half-open-enabled: true
+        register-health-indicator: true
+        ignore-exceptions:
+          - com.shopflow.order.exception.InvalidOrderException
+  retry:
+    instances:
+      catalog:
+        max-attempts: 3
+        wait-duration: 300ms
+        ignore-exceptions:
+          - com.shopflow.order.exception.InvalidOrderException
+
 management:
   endpoints:
     web:
       exposure:
-        include: health,info
+        include: health,info,circuitbreakers,circuitbreakerevents
+  health:
+    circuitbreakers:
+      enabled: true
+  endpoint:
+    health:
+      show-details: always
 
 springdoc:
   swagger-ui:

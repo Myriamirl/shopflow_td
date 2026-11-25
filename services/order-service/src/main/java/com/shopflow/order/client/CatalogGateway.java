@@ -3,6 +3,9 @@ package com.shopflow.order.client;
 import com.shopflow.order.exception.CatalogUnavailableException;
 import com.shopflow.order.exception.InvalidOrderException;
 import feign.FeignException;
+import io.github.resilience4j.circuitbreaker.CallNotPermittedException;
+import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
+import io.github.resilience4j.retry.annotation.Retry;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -25,6 +28,8 @@ public class CatalogGateway {
      * @throws InvalidOrderException       produit inconnu (404 du catalogue) ou inactif
      * @throws CatalogUnavailableException catalogue arrêté, trop lent ou en erreur 5xx
      */
+    @CircuitBreaker(name = "catalog", fallbackMethod = "catalogUnavailable")
+    @Retry(name = "catalog")
     public ProductView getActiveProduct(Long productId) {
         ProductView product;
         try {
@@ -40,5 +45,10 @@ public class CatalogGateway {
             throw new InvalidOrderException("Produit inactif : " + productId);
         }
         return product;
+    }
+
+private ProductView catalogUnavailable(Long productId, CallNotPermittedException ex) {
+        log.warn("Circuit breaker 'catalog' ouvert pour le produit {} : {}", productId, ex.getMessage());
+        throw new CatalogUnavailableException(ex);
     }
 }
