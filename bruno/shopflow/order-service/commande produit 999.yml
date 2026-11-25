@@ -1,0 +1,33 @@
+info:
+  name: commande produit 999
+  type: http
+  seq: 2
+
+http:
+  method: POST
+  url: "{{order}}/api/v1/orders"
+  body:
+    type: json
+    data: |-
+      {
+        "customerId": "cust-1",
+        "lines": [
+          { "productId": 999, "quantity": 1 }
+        ]
+      }
+  auth: inherit
+
+runtime:
+  scripts:
+    - type: tests
+      code: |-
+        test("422", function() {
+          expect(res.getStatus()).to.equal(422);
+        });
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+  forwardAuthorizationHeader: false

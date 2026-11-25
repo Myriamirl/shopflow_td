@@ -1,0 +1,40 @@
+info:
+  name: commande valide
+  type: http
+  seq: 1
+
+http:
+  method: POST
+  url: "{{order}}/api/v1/orders"
+  body:
+    type: json
+    data: |-
+      {
+        "customerId": "cust-1",
+        "lines": [
+          { "productId": 1, "quantity": 2 },
+          { "productId": 2, "quantity": 1 }
+        ]
+      }
+  auth: inherit
+
+runtime:
+  scripts:
+    - type: tests
+      code: |-
+        test("201, total 229.70, statut PENDING", function() {
+          expect(res.getStatus()).to.equal(201);
+          expect(res.getBody().total).to.equal(229.70);
+          expect(res.getBody().status).to.equal("PENDING");
+        });
+
+        if (res.getBody() && res.getBody().id) {
+          bru.setEnvVar("orderId", res.getBody().id);
+        }
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+  forwardAuthorizationHeader: false

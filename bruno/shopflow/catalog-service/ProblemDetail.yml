@@ -1,0 +1,24 @@
+info:
+  name: ProblemDetail
+  type: http
+  seq: 2
+
+http:
+  method: GET
+  url: "{{catalog}}/api/v1/products/999"
+  auth: inherit
+
+runtime:
+  scripts:
+    - type: tests
+      code: |-
+        test("404 ProblemDetail", function() {
+          expect(res.getStatus()).to.equal(404);
+        });
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+  forwardAuthorizationHeader: false

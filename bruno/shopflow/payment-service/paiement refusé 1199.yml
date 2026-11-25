@@ -1,0 +1,33 @@
+info:
+  name: paiement refusé 1199
+  type: http
+  seq: 1
+
+http:
+  method: POST
+  url: "{{payment}}/api/v1/payments"
+  body:
+    type: json
+    data: |-
+      {
+        "customerId": "cust-1",
+        "orderId": 1,
+        "amount": 1199.00
+      }
+  auth: inherit
+
+runtime:
+  scripts:
+    - type: tests
+      code: |-
+        test("201 et statut REFUSED", function() {
+          expect(res.getStatus()).to.equal(201);
+          expect(res.getBody().status).to.equal("REFUSED");
+        });
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+  forwardAuthorizationHeader: false

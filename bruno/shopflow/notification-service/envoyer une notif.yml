@@ -1,0 +1,32 @@
+info:
+  name: envoyer une notif
+  type: http
+  seq: 1
+
+http:
+  method: POST
+  url: "{{notification}}/api/v1/notifications"
+  body:
+    type: json
+    data: |-
+      {
+        "to": "alice@shopflow.example",
+        "subject": "Test notification",
+        "body": "Commande reçue"
+      }
+  auth: inherit
+
+runtime:
+  scripts:
+    - type: tests
+      code: |-
+        test("202", function() {
+          expect(res.getStatus()).to.equal(202);
+        });
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+  forwardAuthorizationHeader: false

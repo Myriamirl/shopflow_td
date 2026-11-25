@@ -1,0 +1,25 @@
+info:
+  name: produit
+  type: http
+  seq: 1
+
+http:
+  method: GET
+  url: "{{catalog}}/api/v1/products"
+  auth: inherit
+
+runtime:
+  scripts:
+    - type: tests
+      code: |-
+        test("200 et 10 produits", function() {
+          expect(res.getStatus()).to.equal(200);
+          expect(res.getBody()).to.have.lengthOf(10);
+        });
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+  forwardAuthorizationHeader: false
