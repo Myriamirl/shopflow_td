@@ -1,0 +1,16 @@
+name: local
+variables:
+  - name: catalog
+    value: http://localhost:8081
+  - name: order
+    value: http://localhost:8082
+  - name: inventory
+    value: http://localhost:8083
+  - name: payment
+    value: http://localhost:8084
+  - name: notification
+    value: http://localhost:8085
+  - name: orderId
+    value:
+      type: number
+      data: "1"
