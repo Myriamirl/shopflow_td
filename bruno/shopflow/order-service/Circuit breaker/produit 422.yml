@@ -1,0 +1,28 @@
+info:
+  name: produit 422
+  type: http
+  seq: 3
+
+http:
+  method: POST
+  url: http://localhost:8082/api/v1/orders
+  body:
+    type: json
+    data: |-
+      {
+        "customerId": 1,
+        "lines": [
+          {
+            "productId": 1,
+            "quantity": 1
+          }
+        ]
+      }
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+  forwardAuthorizationHeader: false

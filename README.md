@@ -1,3 +1,9 @@
+# ETUDIANT - ShopFlow
+  TALEB MORGIANE
+
+# REPONSES AUX QUESTIONS DU TD - ShopFlow
+Voir le fichier `REPONSES.md` pour les réponses aux questions du TD.
+
 # ShopFlow - version de base
 
 Cette version contient les cinq microservices de ShopFlow avec leur code de base. Une seule communication existe entre eux : **order-service appelle catalog-service en synchrone avec OpenFeign**.
